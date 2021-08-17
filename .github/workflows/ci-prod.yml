@@ -6,9 +6,9 @@ name: CI
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [ main ]
+    branches: [ master ]
   pull_request:
-    branches: [ main ]
+    branches: [ master ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -53,6 +53,6 @@ jobs:
        - name: Deploying to Kubernetes Cluster
          run: |
           export KUBECONFIG=/etc/cluster.yaml
-          kubectl set image --namespace=production deployment/pki test=192.168.1.39:5000/pki:production-${{ github.sha }}
+          kubectl set image --namespace=production deployment/pki pki=192.168.1.39:5000/pki:production-${{ github.sha }}
 # kubectl scale deployment --replicas=0
 # kubectl scale deployment --replicas=1
