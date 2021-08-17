@@ -10,6 +10,7 @@ import (
 	"encoding/pem"
 	"io/ioutil"
 	"log"
+	"math"
 	"math/big"
 	"os"
 	"time"
@@ -165,7 +166,7 @@ func (pkcs7 *PKCS7) SignPKCS10(csr *x509.CertificateRequest) (string, error) {
 
 	now := time.Now()
 
-	bigCNID, _ := rand.Int(rand.Reader, big.NewInt(1000*1000*10000))
+	bigCNID, _ := rand.Int(rand.Reader, big.NewInt(math.MaxInt64))
 	CNID := bigCNID.Text(16)
 	cert := &x509.Certificate{
 		SerialNumber: big.NewInt(2019),
