@@ -7,8 +7,8 @@ import (
 	"crypto/rand"
 	"crypto/x509"
 	"crypto/x509/pkix"
-	"encoding/hex"
 	"encoding/pem"
+	"io/ioutil"
 	"log"
 	"math/big"
 	"os"
@@ -51,12 +51,12 @@ func NewCA() (*PKCS7, error) {
 			return nil, err
 		}
 
-		err = os.WriteFile(CACertPath, []byte(caPem), 0)
+		err = ioutil.WriteFile(CACertPath, []byte(caPem), 0400)
 		if err != nil {
 			return nil, err
 		}
 
-		err = os.WriteFile(privCAKeyPath, []byte(privPem), 0)
+		err = ioutil.WriteFile(privCAKeyPath, []byte(privPem), 0400)
 		if err != nil {
 			return nil, err
 		}
@@ -161,12 +161,12 @@ func (pkcs7 *PKCS7) createRootCA() (*x509.Certificate, *ecdsa.PrivateKey, string
 
 }
 
-func (pkcs7 *PKCS7) SignPKCS10(csr x509.CertificateRequest) (string, error) {
+func (pkcs7 *PKCS7) SignPKCS10(csr *x509.CertificateRequest) (string, error) {
 
 	now := time.Now()
 
-	bigCNID, _ := rand.Int(rand.Reader, big.NewInt(1024))
-	CNID := hex.EncodeToString([]byte(bigCNID.String()))
+	bigCNID, _ := rand.Int(rand.Reader, big.NewInt(1000*1000*10000))
+	CNID := bigCNID.Text(16)
 	cert := &x509.Certificate{
 		SerialNumber: big.NewInt(2019),
 		Subject: pkix.Name{
@@ -204,7 +204,7 @@ func (pkcs7 *PKCS7) SignPKCS10(csr x509.CertificateRequest) (string, error) {
 		return "", err
 	}
 
-	os.WriteFile("./certs/clients/"+cert.Subject.CommonName+".pem", certPem.Bytes(), 0)
+	ioutil.WriteFile("./certs/clients/"+cert.Subject.CommonName+".pem", certPem.Bytes(), 0400)
 
 	return string(certPem.Bytes()), nil
 }

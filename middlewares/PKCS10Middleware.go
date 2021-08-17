@@ -3,7 +3,6 @@ package middlewares
 import (
 	"crypto/x509"
 	"encoding/pem"
-	"log"
 
 	"github.com/gin-gonic/gin"
 )
@@ -16,12 +15,14 @@ func ValidatePKCS10() gin.HandlerFunc {
 		}
 		block, _ := pem.Decode(payload)
 		if block == nil || block.Type != "CERTIFICATE REQUEST" {
-			log.Fatal("failted to decode the certificate signing request")
+			println("failted to decode the certificate signing request")
+			return
 		}
 
 		csr, err := x509.ParseCertificateRequest(block.Bytes)
 		if err != nil {
-			log.Fatal(err)
+			println(err.Error())
+			return
 		}
 
 		c.Set("certReq", csr)
