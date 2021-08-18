@@ -22,5 +22,5 @@ func Initialize() error {
 	group := router.Group("/pki")
 	InitPKIEndpoints(group, pkcs7)
 
-	return router.Run(":6667")
+	return router.Run(":6666")
 }
