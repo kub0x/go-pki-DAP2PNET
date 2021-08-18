@@ -165,6 +165,8 @@ func (pkcs7 *PKCS7) createRootCA() (*x509.Certificate, *ecdsa.PrivateKey, string
 		return nil, nil, "", "", err
 	}
 
+	println("Created CA certificate with CN " + ca.Subject.CommonName + " having serial " + ca.SerialNumber.String())
+
 	return ca, caPrivKey, string(caPEM.Bytes()), string(privPEM.Bytes()), nil
 
 }
