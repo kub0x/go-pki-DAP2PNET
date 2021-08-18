@@ -1,6 +1,7 @@
 package server
 
 import (
+	"dap2pnet/middlewares"
 	"dap2pnet/pki"
 	"log"
 
@@ -15,7 +16,9 @@ func Initialize() error {
 		log.Fatal("cannot initialize pki: " + err.Error())
 	}
 
+	gin.ForceConsoleColor()
 	router := gin.New()
+	router.Use(gin.Recovery(), gin.LoggerWithFormatter(middlewares.Logger))
 	group := router.Group("/pki")
 	InitPKIEndpoints(group, pkcs7)
 
