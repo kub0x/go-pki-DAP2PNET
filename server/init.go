@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Initialize() {
+func Initialize() error {
 
 	pkcs7, err := pki.NewCA()
 
@@ -19,5 +19,5 @@ func Initialize() {
 	group := router.Group("/pki")
 	InitPKIEndpoints(group, pkcs7)
 
-	router.Run(":6666")
+	return router.Run(":6666")
 }

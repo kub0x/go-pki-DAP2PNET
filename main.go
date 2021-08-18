@@ -1,7 +1,13 @@
 package main
 
-import "dap2pnet/server"
+import (
+	"dap2pnet/server"
+	"log"
+)
 
 func main() {
-	server.Initialize()
+	err := server.Initialize()
+	if err != nil {
+		log.Fatal("cannot initialize server: " + err.Error())
+	}
 }
