@@ -196,7 +196,6 @@ func (pkcs7 *PKCS7) SignPKCS10(csr *x509.CertificateRequest) (string, error) {
 			PostalCode:    csr.Subject.PostalCode,
 			Names:         csr.Subject.Names,
 			CommonName:    CNID,
-			SerialNumber:  csr.Subject.SerialNumber,
 		},
 		PublicKeyAlgorithm:    csr.PublicKeyAlgorithm,
 		PublicKey:             csr.PublicKey,
@@ -223,6 +222,8 @@ func (pkcs7 *PKCS7) SignPKCS10(csr *x509.CertificateRequest) (string, error) {
 	}
 
 	ioutil.WriteFile("./certs/clients/"+cert.Subject.CommonName+".pem", certPem.Bytes(), 0400)
+
+	println("Issued certificate to " + cert.Subject.CommonName + " having serial " + cert.SerialNumber.String())
 
 	return string(certPem.Bytes()), nil
 }

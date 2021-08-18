@@ -47,7 +47,7 @@ jobs:
          with:
            context: .
            push: true
-           tags: 192.168.1.39:5000/test:production-${{ github.sha }}
+           tags: 192.168.1.39:5000/pki:production-${{ github.sha }}
 
       # Runs a set of commands using the runners shell
        - name: Deploying to Kubernetes Cluster
