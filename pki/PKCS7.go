@@ -7,10 +7,10 @@ import (
 	"crypto/rand"
 	"crypto/x509"
 	"crypto/x509/pkix"
+	"encoding/hex"
 	"encoding/pem"
 	"io/ioutil"
 	"log"
-	"math"
 	"math/big"
 	"os"
 	"time"
@@ -105,10 +105,16 @@ func (pkcs7 *PKCS7) loadCA() (*x509.Certificate, *ecdsa.PrivateKey, error) {
 }
 
 func (pkcs7 *PKCS7) createRootCA() (*x509.Certificate, *ecdsa.PrivateKey, string, string, error) {
-	now := time.Now()
 
+	serial := make([]byte, 20)
+	_, err := rand.Read(serial)
+	if err != nil {
+		return nil, nil, "", "", err
+	}
+
+	now := time.Now()
 	ca := &x509.Certificate{
-		SerialNumber: big.NewInt(2019),
+		SerialNumber: big.NewInt(0).SetBytes(serial),
 		Subject: pkix.Name{
 			Organization:  []string{organization},
 			Country:       []string{country},
@@ -116,6 +122,7 @@ func (pkcs7 *PKCS7) createRootCA() (*x509.Certificate, *ecdsa.PrivateKey, string
 			Locality:      []string{locality},
 			StreetAddress: []string{address},
 			PostalCode:    []string{code},
+			CommonName:    "CA",
 		},
 		NotBefore:             now,
 		NotAfter:              now.AddDate(10, 0, 0),
@@ -163,13 +170,23 @@ func (pkcs7 *PKCS7) createRootCA() (*x509.Certificate, *ecdsa.PrivateKey, string
 }
 
 func (pkcs7 *PKCS7) SignPKCS10(csr *x509.CertificateRequest) (string, error) {
+	serial := make([]byte, 20)
+	_, err := rand.Read(serial)
+	if err != nil {
+		return "", err
+	}
+
+	CN := make([]byte, 32)
+	_, err = rand.Read(CN)
+	if err != nil {
+		return "", err
+	}
 
 	now := time.Now()
+	CNID := hex.EncodeToString(CN)
 
-	bigCNID, _ := rand.Int(rand.Reader, big.NewInt(math.MaxInt64))
-	CNID := bigCNID.Text(16)
 	cert := &x509.Certificate{
-		SerialNumber: big.NewInt(2019),
+		SerialNumber: big.NewInt(0).SetBytes(serial),
 		Subject: pkix.Name{
 			Organization:  csr.Subject.Organization,
 			Country:       csr.Subject.Country,
@@ -184,7 +201,7 @@ func (pkcs7 *PKCS7) SignPKCS10(csr *x509.CertificateRequest) (string, error) {
 		PublicKeyAlgorithm:    csr.PublicKeyAlgorithm,
 		PublicKey:             csr.PublicKey,
 		NotBefore:             now,
-		NotAfter:              now.AddDate(10, 0, 0),
+		NotAfter:              now.AddDate(0, 0, 1),
 		IsCA:                  false,
 		ExtKeyUsage:           []x509.ExtKeyUsage{x509.ExtKeyUsageClientAuth, x509.ExtKeyUsageServerAuth},
 		KeyUsage:              x509.KeyUsageDigitalSignature,
