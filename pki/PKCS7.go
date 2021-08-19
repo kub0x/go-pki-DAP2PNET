@@ -22,15 +22,16 @@ type PKCS7 struct {
 }
 
 var (
-	organization  = "daP2Pnet"
-	country       = "ES"
-	province      = "Bizkaia"
-	locality      = "Bilbao"
-	address       = "Deusto"
-	code          = "48015"
-	keyLen        = 4096
-	CACertPath    = "./certs/ca_cert.pem"
-	privCAKeyPath = "./certs/ca_key.pem"
+	organization   = "daP2Pnet"
+	country        = "ES"
+	province       = "Bizkaia"
+	locality       = "Bilbao"
+	address        = "Deusto"
+	code           = "48015"
+	keyLen         = 4096
+	CACertPath     = "./certs/ca_cert.pem"
+	PrivCAKeyPath  = "./certs/ca_key.pem"
+	ClientsKeyPath = "./certs/clients"
 )
 
 // func encodePEM(pemInfo []byte, pemType string) {
@@ -46,7 +47,6 @@ func NewCA() (*PKCS7, error) {
 	var caPem, privPem string
 	caCert, privKey, err := pkcs7.loadCA()
 	if err != nil {
-		println(err.Error())
 		caCert, privKey, caPem, privPem, err = pkcs7.createRootCA()
 		if err != nil {
 			return nil, err
@@ -57,7 +57,7 @@ func NewCA() (*PKCS7, error) {
 			return nil, err
 		}
 
-		err = ioutil.WriteFile(privCAKeyPath, []byte(privPem), 0400)
+		err = ioutil.WriteFile(PrivCAKeyPath, []byte(privPem), 0400)
 		if err != nil {
 			return nil, err
 		}
@@ -86,7 +86,7 @@ func (pkcs7 *PKCS7) loadCA() (*x509.Certificate, *ecdsa.PrivateKey, error) {
 		return nil, nil, err
 	}
 
-	privBytes, err := os.ReadFile(privCAKeyPath)
+	privBytes, err := os.ReadFile(PrivCAKeyPath)
 	if err != nil {
 		return nil, nil, err
 	}

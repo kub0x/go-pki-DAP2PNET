@@ -20,7 +20,7 @@ func ValidatePKCS10() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		payload, err := c.GetRawData()
 		if err != nil {
-			c.AbortWithError(http.StatusInternalServerError, errors.Wrap(PKCS10MiddlewareErrInternal, "cannot read http data"))
+			c.AbortWithError(http.StatusInternalServerError, errors.Wrap(PKCS10MiddlewareErrInternal, err.Error()))
 			return
 		}
 

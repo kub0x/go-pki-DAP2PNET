@@ -9,7 +9,6 @@ import (
 
 func Logger(param gin.LogFormatterParams) string {
 
-	// your custom format
 	return fmt.Sprintf("%s - [%s] \"%s %s %s %d %s \"%s\" %s\"\n",
 		param.ClientIP,
 		param.TimeStamp.Format(time.RFC1123),
@@ -21,4 +20,5 @@ func Logger(param gin.LogFormatterParams) string {
 		param.Request.UserAgent(),
 		param.ErrorMessage,
 	)
+
 }

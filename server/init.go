@@ -18,9 +18,17 @@ func Initialize() error {
 
 	gin.ForceConsoleColor()
 	router := gin.New()
+	router.LoadHTMLGlob("templates/*")
 	router.Use(gin.Recovery(), gin.LoggerWithFormatter(middlewares.Logger))
-	group := router.Group("/pki")
-	InitPKIEndpoints(group, pkcs7)
 
-	return router.Run(":6666")
+	pkiGroup := router.Group("/pki")
+	InitPKIEndpoints(pkiGroup, pkcs7)
+
+	if gin.IsDebugging() {
+		keyGroup := router.Group("/keys")
+		InitKeyEndpoints(keyGroup)
+	}
+
+	return router.RunTLS(":6666", pki.CACertPath, pki.PrivCAKeyPath)
+
 }
