@@ -18,11 +18,11 @@ ENV PATH=$GOPATH/bin:$PATH
 RUN mkdir -p $GOPATH/src/app
 ADD . $GOPATH/src/app
 
-ADD ./templates  /go/bin/$PKG
-
 WORKDIR $GOPATH/src/app
 
 RUN mkdir -p /go/bin/certs/clients
+
+RUN mv ./templates /go/bin/
 
 COPY go.mod ./
 COPY go.sum ./
