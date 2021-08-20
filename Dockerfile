@@ -1,6 +1,6 @@
 FROM golang:alpine as builder
 
-RUN apk update ; apk add -U --no-cache tzdata bash upx ca-certificates
+RUN apk update ; apk add -U --no-cache tzdata bash ca-certificates
 
 ARG PKG=pki 
 ARG GITLAB_TOKEN
@@ -32,20 +32,10 @@ COPY *.go ./
 ENV CGO_ENABLED=0
 RUN go build -o /go/bin/$PKG
 
-# go get uses git to pull lib dependencies
-# RUN git config --global url."https://oauth2:$GITLAB_TOKEN@gitlab.com".insteadOf "https://gitlab.com"
-
-# RUN env GO111MODULE=on GOPRIVATE=gitlab.com go get ./...
-# RUN go get -u github.com/ahmetb/govvv
-# RUN CGO_ENABLED=0 govvv build -a -installsuffix cgo -ldflags " -s -w" -o /go/bin/$PKG main.go
-
-# RUN upx /go/bin/$PKG
-
 FROM scratch
 
 WORKDIR /
 
-# EXPOSE 6666
 EXPOSE 6666
 USER 1001
 
