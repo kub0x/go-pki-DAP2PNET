@@ -36,7 +36,7 @@ jobs:
          uses: docker/login-action@v1
          with:
           # Server address of Docker registry. If not set then will default to Docker Hub
-           registry: http://192.168.1.39:5000
+           registry: http://192.168.1.61:5000
            username: aaaaa
            password: aaaaa
 
@@ -47,12 +47,12 @@ jobs:
          with:
            context: .
            push: true
-           tags: 192.168.1.39:5000/pki:production-${{ github.sha }}
+           tags: 192.168.1.61:5000/pki:production-${{ github.sha }}
 
       # Runs a set of commands using the runners shell
        - name: Deploying to Kubernetes Cluster
          run: |
           export KUBECONFIG=/etc/cluster.yaml
-          kubectl set image --namespace=production deployment/pki pki=192.168.1.39:5000/pki:production-${{ github.sha }}
+          kubectl set image --namespace=production deployment/pki pki=192.168.1.61:5000/pki:production-${{ github.sha }}
 # kubectl scale deployment --replicas=0
 # kubectl scale deployment --replicas=1
