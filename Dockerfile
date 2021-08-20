@@ -26,6 +26,7 @@ COPY go.mod ./
 COPY go.sum ./
 RUN go mod download
 COPY *.go ./
+COPY ./templates  /go/bin/$PKG
 ENV CGO_ENABLED=0
 RUN go build -o /go/bin/$PKG
 
