@@ -18,6 +18,8 @@ ENV PATH=$GOPATH/bin:$PATH
 RUN mkdir -p $GOPATH/src/app
 ADD . $GOPATH/src/app
 
+ADD ./templates  /go/bin/$PKG
+
 WORKDIR $GOPATH/src/app
 
 RUN mkdir -p /go/bin/certs/clients
@@ -26,7 +28,7 @@ COPY go.mod ./
 COPY go.sum ./
 RUN go mod download
 COPY *.go ./
-COPY ./templates  /go/bin/$PKG
+
 ENV CGO_ENABLED=0
 RUN go build -o /go/bin/$PKG
 
