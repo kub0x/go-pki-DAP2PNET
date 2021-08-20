@@ -6,8 +6,8 @@ import (
 )
 
 func main() {
-	err := server.Initialize()
+	err := server.Run()
 	if err != nil {
-		log.Fatal("cannot initialize server: " + err.Error())
+		log.Fatal("server gave error: " + err.Error())
 	}
 }

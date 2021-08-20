@@ -8,6 +8,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func InitInfoEndpoints(router *gin.RouterGroup, version string) {
+	router.GET("/version", handlers.GetVersion(version))
+}
+
 func InitPKIEndpoints(router *gin.RouterGroup, pkcs7 *pki.PKCS7) {
 	router.POST("/register", middlewares.ValidatePKCS10(), handlers.OnPKCS10Signing(pkcs7))
 	router.PUT("/keys/exchange")
