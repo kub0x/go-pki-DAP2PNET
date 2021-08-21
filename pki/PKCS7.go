@@ -22,7 +22,7 @@ type PKCS7 struct {
 }
 
 var (
-	organization   = "daP2Pnet"
+	organization   = "dap2pnet/pki"
 	country        = "ES"
 	province       = "Bizkaia"
 	locality       = "Bilbao"

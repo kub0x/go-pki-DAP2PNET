@@ -1,8 +1,8 @@
 package server
 
 import (
-	"dap2pnet/middlewares"
-	"dap2pnet/pki"
+	"dap2pnet/pki/middlewares"
+	"dap2pnet/pki/pki"
 
 	"github.com/pkg/errors"
 

@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"dap2pnet/pki"
+	"dap2pnet/pki/pki"
 	"net/http"
 	"os"
 

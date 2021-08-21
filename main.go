@@ -1,7 +1,7 @@
 package main
 
 import (
-	"dap2pnet/server"
+	"dap2pnet/pki/server"
 	"log"
 )
 

@@ -1,4 +1,4 @@
-module dap2pnet
+module dap2pnet/pki
 
 go 1.15
 

@@ -1,9 +1,9 @@
 package server
 
 import (
-	"dap2pnet/handlers"
-	"dap2pnet/middlewares"
-	"dap2pnet/pki"
+	"dap2pnet/pki/handlers"
+	"dap2pnet/pki/middlewares"
+	"dap2pnet/pki/pki"
 
 	"github.com/gin-gonic/gin"
 )

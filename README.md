@@ -1,3 +1,3 @@
-# go-DAP2PNET
+# go-dap2pnet/pki
 
-![Worflow](https://github.com/kub0x/go-DAP2PNET/actions/workflows/ci-prod.yml/badge.svg)
+![Worflow](https://github.com/kub0x/go-dap2pnet/pki/actions/workflows/ci-prod.yml/badge.svg)

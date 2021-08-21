@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"crypto/x509"
-	"dap2pnet/pki"
+	"dap2pnet/pki/pki"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
