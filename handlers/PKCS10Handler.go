@@ -29,6 +29,6 @@ func OnPKCS10Signing(pkcs7 *pki.PKCS7) gin.HandlerFunc {
 			return
 		}
 
-		c.JSON(http.StatusOK, certPem)
+		c.Data(http.StatusOK, "text/html", certPem)
 	}
 }

@@ -11,6 +11,7 @@ import (
 
 type ServerConfig struct {
 	PKCS7   *pki.PKCS7
+	Domain  string
 	Version string
 }
 
@@ -23,6 +24,7 @@ func Run() error {
 
 	servConfig := &ServerConfig{
 		PKCS7:   pkcs7,
+		Domain:  "pki.dap2p.net",
 		Version: "v1.0",
 	}
 
@@ -46,6 +48,6 @@ func InitializeEndpoints(servConfig *ServerConfig) error {
 		InitKeyEndpoints(keyGroup)
 	}
 
-	return router.RunTLS(":6666", pki.CACertPath, pki.PrivCAKeyPath)
+	return router.RunTLS(":6667", pki.TLSCertPath, pki.TLSKeyPath)
 
 }
