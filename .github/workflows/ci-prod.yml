@@ -83,7 +83,8 @@ jobs:
       # Runs a set of commands using the runners shell
        - name: Deploying to Kubernetes Cluster
          run: |
-          export KUBECONFIG="${{ secrets.CLUSTER }}"
+          echo KUBECONFIG="${{ secrets.CLUSTER }}" | tee k3s.yaml
+          export KUBECONFIG=k3s.yaml
           kubectl set image --namespace=production deployment/pki pki=ghcr.io/${{ github.actor }}/pki:production-${{ github.sha }}
 # kubectl scale deployment --replicas=0
 # kubectl scale deployment --replicas=1
