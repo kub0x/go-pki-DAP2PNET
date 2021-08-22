@@ -48,6 +48,6 @@ func InitializeEndpoints(servConfig *ServerConfig) error {
 		InitKeyEndpoints(keyGroup)
 	}
 
-	return router.RunTLS(":6667", pki.TLSCertPath, pki.TLSKeyPath)
+	return router.RunTLS(":6666", pki.TLSCertPath, pki.TLSKeyPath)
 
 }

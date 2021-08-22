@@ -37,8 +37,10 @@ var (
 
 func NewCA() (*PKCS7, error) {
 	pkcs7 := &PKCS7{}
+	// TODO CHECK IF PKI CERT + PRIV EXISTS AND WHETHER THEY'RE VALID
 	err := pkcs7.loadCA()
 	if err != nil {
+		println(err.Error())
 		err = pkcs7.createRootCA()
 		if err != nil {
 			return nil, err
@@ -67,7 +69,7 @@ func (pkcs7 *PKCS7) loadCA() error {
 	}
 	block, _ := pem.Decode(caBytes)
 	if block == nil || block.Type != "CERTIFICATE" {
-		log.Fatal("failted to decode ca certificate")
+		log.Fatal("failed to decode ca certificate")
 	}
 
 	caCert, err := x509.ParseCertificate(block.Bytes)
@@ -81,7 +83,7 @@ func (pkcs7 *PKCS7) loadCA() error {
 	}
 	block, _ = pem.Decode(privBytes)
 	if block == nil || block.Type != "EC PRIVATE KEY" {
-		log.Fatal("failted to decode ca private key")
+		log.Fatal("failed to decode ca private key")
 	}
 
 	privKey, err := x509.ParseECPrivateKey(block.Bytes)
@@ -91,6 +93,8 @@ func (pkcs7 *PKCS7) loadCA() error {
 
 	pkcs7.caCert = caCert
 	pkcs7.privKey = privKey
+
+	println("PKI correctly loaded")
 
 	return nil
 
@@ -135,6 +139,7 @@ func (pkcs7 *PKCS7) generateInternalCertificate(CN string) error {
 			PostalCode:    []string{code},
 			CommonName:    CN,
 		},
+		DNSNames:              []string{CN},
 		NotBefore:             now,
 		NotAfter:              now.AddDate(10, 0, 0),
 		IsCA:                  false,
