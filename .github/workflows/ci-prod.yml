@@ -49,10 +49,10 @@ jobs:
            push: true
            tags: 192.168.1.61:5000/pki:production-${{ github.sha }}
            build-args: |
-            CA = ${{ secrets.CA }}
-            CA_KEY = ${{ secrets.CA_KEY }}
-            CERTIFICATE = ${{ secrets.CERTIFICATE }}
-            PRIVATE_KEY = ${{ secrets.PRIVATE_KEY }}
+            "CA=${{ secrets.CA }}"
+            "CA_KEY=${{ secrets.CA_KEY }}"
+            "CERTIFICATE=${{ secrets.CERTIFICATE }}"
+            "PRIVATE_KEY=${{ secrets.PRIVATE_KEY }}"
 
       # Runs a set of commands using the runners shell
        - name: Deploying to Kubernetes Cluster
