@@ -65,7 +65,7 @@ jobs:
           
        - name: Build #USING BUILDX HERE AS AN ALIAS TO SUPPORT MULTI ARCH!
          run: |
-          docker build --build-arg "A=${{ secrets.CA }} --build-arg CA_KEY=${{ secrets.CA_KEY }} --build-arg CERTIFICATE=${{ secrets.CERTIFICATE }} --build-arg PRIVATE_KEY=${{ secrets.PRIVATE_KEY }} --platform linux/arm64 -t pki:production-${{ github.sha }} .
+          docker build --build-arg CA=${{ secrets.CA }} --build-arg CA_KEY=${{ secrets.CA_KEY }} --build-arg CERTIFICATE=${{ secrets.CERTIFICATE }} --build-arg PRIVATE_KEY=${{ secrets.PRIVATE_KEY }} --platform linux/arm64 -t pki:production-${{ github.sha }} .
           docker tag pki:production-${{ github.sha }} ghcr.io/${{ github.actor }}/pki:production-${{ github.sha }}
           docker push ghcr.io/${{ github.actor }}/pki:production-${{ github.sha }}
 
