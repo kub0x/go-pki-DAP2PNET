@@ -10,7 +10,7 @@ import (
 func Logger(param gin.LogFormatterParams) string {
 
 	return fmt.Sprintf("%s - [%s] \"%s %s %s %d %s \"%s\" %s\"\n",
-		param.ClientIP,
+		param.Request.Header.Get("X-Forwarded-For"),
 		param.TimeStamp.Format(time.RFC1123),
 		param.Method,
 		param.Path,
